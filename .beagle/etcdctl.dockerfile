@@ -1,0 +1,13 @@
+ARG BASE
+
+FROM ${BASE}
+
+ARG AUTHOR
+ARG VERSION
+
+LABEL maintainer=${AUTHOR} version=${VERSION}
+
+ARG TARGETOS
+ARG TARGETARCH
+
+COPY ./dist/etcdctl-${TARGETOS}-${TARGETARCH} /usr/local/bin/etcdctl
