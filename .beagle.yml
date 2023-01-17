@@ -7,7 +7,7 @@ volumes:
       path: /var/run/docker.sock
 
 workspace:
-  path: /go/src/go.etcd.io/etcd/v3
+  path: /go/src/go.etcd.io/etcd
 
 clone:
   disable: true
