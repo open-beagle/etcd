@@ -10,4 +10,4 @@ LABEL maintainer=${AUTHOR} version=${VERSION}
 ARG TARGETOS
 ARG TARGETARCH
 
-COPY ./dist/etcdctl-${TARGETOS}-${TARGETARCH} /usr/local/bin/etcdctl
+COPY ./bin/${TARGETOS}-${TARGETARCH}/etcdctl /usr/local/bin/etcdctl

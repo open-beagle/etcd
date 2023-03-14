@@ -62,7 +62,7 @@ steps:
         path: /var/run/docker.sock
     settings:
       base: registry.cn-qingdao.aliyuncs.com/wod/debian:bullseye-slim-arm64
-      dockerfile: .beagle/etcd-arch.dockerfile
+      dockerfile: .beagle/etcd.dockerfile
       repo: wod/etcd
       version: 'v3.5.7'
       channel: 'arm64'
@@ -91,10 +91,28 @@ steps:
       registry_password:
         from_secret: REGISTRY_PASSWORD_ALIYUN
 
+  - name: etcd-mips64le
+    image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    settings:
+      base: registry.cn-qingdao.aliyuncs.com/wod/debian:bullseye-slim-mips64le
+      dockerfile: .beagle/etcd-arch.dockerfile
+      repo: wod/etcd
+      version: 'v3.5.7'
+      channel: 'mips64le'
+      args: 'TARGETOS=linux,TARGETARCH=mips64le'
+      registry: registry.cn-qingdao.aliyuncs.com
+      registry_user:
+        from_secret: REGISTRY_USER_ALIYUN
+      registry_password:
+        from_secret: REGISTRY_PASSWORD_ALIYUN
+
   - name: etcd-arch
     image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker-manifest:1.0
     settings:
-      platforms: linux/amd64,linux/arm64,linux/ppc64le
+      platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/mips64le
       template: registry.cn-qingdao.aliyuncs.com/wod/etcd:v3.5.7-ARCH
       target: registry.cn-qingdao.aliyuncs.com/wod/etcd:v3.5.7
       username:
@@ -156,10 +174,28 @@ steps:
       registry_password:
         from_secret: REGISTRY_PASSWORD_ALIYUN
 
+  - name: etcdctl-mips64le
+    image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker:1.0
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    settings:
+      base: registry.cn-qingdao.aliyuncs.com/wod/alpine:3-mips64le
+      dockerfile: .beagle/etcdctl.dockerfile
+      repo: wod/etcdctl
+      version: 'v3.5.7'
+      channel: 'mips64le'
+      args: 'TARGETOS=linux,TARGETARCH=mips64le'
+      registry: registry.cn-qingdao.aliyuncs.com
+      registry_user:
+        from_secret: REGISTRY_USER_ALIYUN
+      registry_password:
+        from_secret: REGISTRY_PASSWORD_ALIYUN
+
   - name: etcdctl-arch
     image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker-manifest:1.0
     settings:
-      platforms: linux/amd64,linux/arm64,linux/ppc64le
+      platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/mips64le
       template: registry.cn-qingdao.aliyuncs.com/wod/etcdctl:v3.5.7-ARCH
       target: registry.cn-qingdao.aliyuncs.com/wod/etcdctl:v3.5.7
       username:

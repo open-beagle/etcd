@@ -10,9 +10,9 @@ LABEL maintainer=${AUTHOR} version=${VERSION}
 ARG TARGETOS
 ARG TARGETARCH
 
-COPY ./dist/etcd-${TARGETOS}-${TARGETARCH} /usr/local/bin/etcd
-COPY ./dist/etcdctl-${TARGETOS}-${TARGETARCH} /usr/local/bin/etcdctl
-COPY ./dist/etcdutl-${TARGETOS}-${TARGETARCH} /usr/local/bin/etcdutl
+COPY ./bin/${TARGETOS}-${TARGETARCH}/etcd /usr/local/bin/etcd
+COPY ./bin/${TARGETOS}-${TARGETARCH}/etcdctl /usr/local/bin/etcdctl
+COPY ./bin/${TARGETOS}-${TARGETARCH}/etcdutl /usr/local/bin/etcdutl
 
 RUN mkdir -p /var/etcd/ && \
 mkdir -p /var/lib/etcd/
