@@ -20,3 +20,9 @@ make build
 mv bin/etcd dist/etcd-linux-$GOARCH
 mv bin/etcdctl dist/etcdctl-linux-$GOARCH
 mv bin/etcdutl dist/etcdutl-linux-$GOARCH
+
+export GOARCH=mips64le 
+make build
+mv bin/etcd dist/etcd-linux-$GOARCH
+mv bin/etcdctl dist/etcdctl-linux-$GOARCH
+mv bin/etcdutl dist/etcdutl-linux-$GOARCH

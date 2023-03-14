@@ -1,4 +1,4 @@
-# version
+# etcd-io/etcd
 
 <!-- https://github.com/etcd-io/etcd -->
 
@@ -7,7 +7,7 @@ git remote add upstream git@github.com:etcd-io/etcd.git
 
 git fetch upstream
 
-git merge v3.5.6
+git merge v3.5.7
 ```
 
 ## debug
