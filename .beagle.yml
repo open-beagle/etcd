@@ -33,7 +33,7 @@ steps:
         from_secret: SOCKS5_PROXY
 
   - name: golang
-    image: registry.cn-qingdao.aliyuncs.com/wod/golang:1.19-alpine 
+    image: registry.cn-qingdao.aliyuncs.com/wod/golang:1.20-alpine 
     commands:
       - bash .beagle/build.sh
 
@@ -46,7 +46,7 @@ steps:
       base: registry.cn-qingdao.aliyuncs.com/wod/debian:bullseye-slim-amd64
       dockerfile: .beagle/etcd.dockerfile
       repo: wod/etcd
-      version: 'v3.5.7'
+      version: 'v3.5.9'
       channel: 'amd64'
       args: 'TARGETOS=linux,TARGETARCH=amd64'
       registry: registry.cn-qingdao.aliyuncs.com
@@ -64,7 +64,7 @@ steps:
       base: registry.cn-qingdao.aliyuncs.com/wod/debian:bullseye-slim-arm64
       dockerfile: .beagle/etcd.dockerfile
       repo: wod/etcd
-      version: 'v3.5.7'
+      version: 'v3.5.9'
       channel: 'arm64'
       args: 'TARGETOS=linux,TARGETARCH=arm64'
       registry: registry.cn-qingdao.aliyuncs.com
@@ -82,7 +82,7 @@ steps:
       base: registry.cn-qingdao.aliyuncs.com/wod/debian:bullseye-slim-ppc64le
       dockerfile: .beagle/etcd.dockerfile
       repo: wod/etcd
-      version: 'v3.5.7'
+      version: 'v3.5.9'
       channel: 'ppc64le'
       args: 'TARGETOS=linux,TARGETARCH=ppc64le'
       registry: registry.cn-qingdao.aliyuncs.com
@@ -100,7 +100,7 @@ steps:
       base: registry.cn-qingdao.aliyuncs.com/wod/debian:bullseye-slim-mips64le
       dockerfile: .beagle/etcd-arch.dockerfile
       repo: wod/etcd
-      version: 'v3.5.7'
+      version: 'v3.5.9'
       channel: 'mips64le'
       args: 'TARGETOS=linux,TARGETARCH=mips64le'
       registry: registry.cn-qingdao.aliyuncs.com
@@ -113,8 +113,8 @@ steps:
     image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker-manifest:1.0
     settings:
       platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/mips64le
-      template: registry.cn-qingdao.aliyuncs.com/wod/etcd:v3.5.7-ARCH
-      target: registry.cn-qingdao.aliyuncs.com/wod/etcd:v3.5.7
+      template: registry.cn-qingdao.aliyuncs.com/wod/etcd:v3.5.9-ARCH
+      target: registry.cn-qingdao.aliyuncs.com/wod/etcd:v3.5.9
       username:
         from_secret: REGISTRY_USER_ALIYUN
       password:
@@ -129,7 +129,7 @@ steps:
       base: registry.cn-qingdao.aliyuncs.com/wod/alpine:3-amd64
       dockerfile: .beagle/etcdctl.dockerfile
       repo: wod/etcdctl
-      version: 'v3.5.7'
+      version: 'v3.5.9'
       channel: 'amd64'
       args: 'TARGETOS=linux,TARGETARCH=amd64'
       registry: registry.cn-qingdao.aliyuncs.com
@@ -147,7 +147,7 @@ steps:
       base: registry.cn-qingdao.aliyuncs.com/wod/alpine:3-arm64
       dockerfile: .beagle/etcdctl.dockerfile
       repo: wod/etcdctl
-      version: 'v3.5.7'
+      version: 'v3.5.9'
       channel: 'arm64'
       args: 'TARGETOS=linux,TARGETARCH=arm64'
       registry: registry.cn-qingdao.aliyuncs.com
@@ -165,7 +165,7 @@ steps:
       base: registry.cn-qingdao.aliyuncs.com/wod/alpine:3-ppc64le
       dockerfile: .beagle/etcdctl.dockerfile
       repo: wod/etcdctl
-      version: 'v3.5.7'
+      version: 'v3.5.9'
       channel: 'ppc64le'
       args: 'TARGETOS=linux,TARGETARCH=ppc64le'
       registry: registry.cn-qingdao.aliyuncs.com
@@ -183,7 +183,7 @@ steps:
       base: registry.cn-qingdao.aliyuncs.com/wod/alpine:3-mips64le
       dockerfile: .beagle/etcdctl.dockerfile
       repo: wod/etcdctl
-      version: 'v3.5.7'
+      version: 'v3.5.9'
       channel: 'mips64le'
       args: 'TARGETOS=linux,TARGETARCH=mips64le'
       registry: registry.cn-qingdao.aliyuncs.com
@@ -196,8 +196,8 @@ steps:
     image: registry.cn-qingdao.aliyuncs.com/wod/devops-docker-manifest:1.0
     settings:
       platforms: linux/amd64,linux/arm64,linux/ppc64le,linux/mips64le
-      template: registry.cn-qingdao.aliyuncs.com/wod/etcdctl:v3.5.7-ARCH
-      target: registry.cn-qingdao.aliyuncs.com/wod/etcdctl:v3.5.7
+      template: registry.cn-qingdao.aliyuncs.com/wod/etcdctl:v3.5.9-ARCH
+      target: registry.cn-qingdao.aliyuncs.com/wod/etcdctl:v3.5.9
       username:
         from_secret: REGISTRY_USER_ALIYUN
       password:
