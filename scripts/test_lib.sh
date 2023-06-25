@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 ROOT_MODULE="go.etcd.io/etcd"
 
 if [[ "$(go list)" != "${ROOT_MODULE}/v3" ]]; then
@@ -107,10 +109,10 @@ function relativePath {
 
 ####   Discovery of files/packages within a go module #####
 
-# go_srcs_in_module [package]
+# go_srcs_in_module
 # returns list of all not-generated go sources in the current (dir) module.
 function go_srcs_in_module {
-  go fmt -n "$1"  | grep -Eo "([^ ]*)$" | grep -vE "(\\_test.go|\\.pb\\.go|\\.pb\\.gw.go)"
+  go list -f "{{with \$c:=.}}{{range \$f:=\$c.GoFiles  }}{{\$c.Dir}}/{{\$f}}{{\"\n\"}}{{end}}{{range \$f:=\$c.TestGoFiles  }}{{\$c.Dir}}/{{\$f}}{{\"\n\"}}{{end}}{{range \$f:=\$c.XTestGoFiles  }}{{\$c.Dir}}/{{\$f}}{{\"\n\"}}{{end}}{{end}}" ./... | grep -vE "(\\.pb\\.go|\\.pb\\.gw.go)"
 }
 
 # pkgs_in_module [optional:package_pattern]
@@ -171,7 +173,7 @@ function module_dirs() {
 
 # maybe_run [cmd...] runs given command depending on the DRY_RUN flag.
 function maybe_run() {
-  if ${DRY_RUN}; then
+  if ${DRY_RUN:-}; then
     log_warning -e "# DRY_RUN:\\n  % ${*}"
   else
     run "${@}"
@@ -243,7 +245,7 @@ function go_test {
 
   local goTestFlags=""
   local goTestEnv=""
-  if [ "${VERBOSE}" == "1" ]; then
+  if [ "${VERBOSE:-}" == "1" ]; then
     goTestFlags="-v"
   fi
 
@@ -365,14 +367,16 @@ function assert_no_git_modifications {
 #  - no differencing commits in relation to the origin/$branch
 function git_assert_branch_in_sync {
   local branch
-  branch=$(run git rev-parse --abbrev-ref HEAD)
   # TODO: When git 2.22 popular, change to:
   # branch=$(git branch --show-current)
+  branch=$(run git rev-parse --abbrev-ref HEAD)
+  log_callout "Verify the current branch '${branch}' is clean"
   if [[ $(run git status --porcelain --untracked-files=no) ]]; then
     log_error "The workspace in '$(pwd)' for branch: ${branch} has uncommitted changes"
     log_error "Consider cleaning up / renaming this directory or (cd $(pwd) && git reset --hard)"
     return 2
   fi
+  log_callout "Verify the current branch '${branch}' is in sync with the 'origin/${branch}'"
   if [ -n "${branch}" ]; then
     ref_local=$(run git rev-parse "${branch}")
     ref_origin=$(run git rev-parse "origin/${branch}")
