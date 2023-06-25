@@ -11,3 +11,4 @@ ARG TARGETOS
 ARG TARGETARCH
 
 COPY ./bin/${TARGETOS}-${TARGETARCH}/etcdctl /usr/local/bin/etcdctl
+COPY ./bin/${TARGETOS}-${TARGETARCH}/etcdutl /usr/local/bin/etcdutl
