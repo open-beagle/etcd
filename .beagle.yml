@@ -225,7 +225,7 @@ steps:
     settings:
       source: registry.cn-qingdao.aliyuncs.com/wod/etcd:v3.5.9-amd64
       target: registry.cn-qingdao.aliyuncs.com/wod/etcd:v3-amd64
-      registry: hub.wodcloud.com
+      registry: registry.cn-qingdao.aliyuncs.com
       registry_user:
         from_secret: REGISTRY_USER
       registry_password:
@@ -237,7 +237,7 @@ steps:
     settings:
       source: registry.cn-qingdao.aliyuncs.com/wod/etcd:v3.5.9-arm64
       target: registry.cn-qingdao.aliyuncs.com/wod/etcd:v3-arm64
-      registry: hub.wodcloud.com
+      registry: registry.cn-qingdao.aliyuncs.com
       registry_user:
         from_secret: REGISTRY_USER
       registry_password:
@@ -249,7 +249,7 @@ steps:
     settings:
       source: registry.cn-qingdao.aliyuncs.com/wod/etcd:v3.5.9-ppc64le
       target: registry.cn-qingdao.aliyuncs.com/wod/etcd:v3-ppc64le
-      registry: hub.wodcloud.com
+      registry: registry.cn-qingdao.aliyuncs.com
       registry_user:
         from_secret: REGISTRY_USER
       registry_password:
@@ -261,7 +261,7 @@ steps:
     settings:
       source: registry.cn-qingdao.aliyuncs.com/wod/etcd:v3.5.9-mips64le
       target: registry.cn-qingdao.aliyuncs.com/wod/etcd:v3-mips64le
-      registry: hub.wodcloud.com
+      registry: registry.cn-qingdao.aliyuncs.com
       registry_user:
         from_secret: REGISTRY_USER
       registry_password:
@@ -297,7 +297,7 @@ steps:
     settings:
       source: registry.cn-qingdao.aliyuncs.com/wod/etcdctl:v3.5.9-amd64
       target: registry.cn-qingdao.aliyuncs.com/wod/etcdctl:v3-amd64
-      registry: hub.wodcloud.com
+      registry: registry.cn-qingdao.aliyuncs.com
       registry_user:
         from_secret: REGISTRY_USER
       registry_password:
@@ -309,7 +309,7 @@ steps:
     settings:
       source: registry.cn-qingdao.aliyuncs.com/wod/etcdctl:v3.5.9-arm64
       target: registry.cn-qingdao.aliyuncs.com/wod/etcdctl:v3-arm64
-      registry: hub.wodcloud.com
+      registry: registry.cn-qingdao.aliyuncs.com
       registry_user:
         from_secret: REGISTRY_USER
       registry_password:
@@ -321,7 +321,7 @@ steps:
     settings:
       source: registry.cn-qingdao.aliyuncs.com/wod/etcdctl:v3.5.9-ppc64le
       target: registry.cn-qingdao.aliyuncs.com/wod/etcdctl:v3-ppc64le
-      registry: hub.wodcloud.com
+      registry: registry.cn-qingdao.aliyuncs.com
       registry_user:
         from_secret: REGISTRY_USER
       registry_password:
@@ -333,7 +333,7 @@ steps:
     settings:
       source: registry.cn-qingdao.aliyuncs.com/wod/etcdctl:v3.5.9-mips64le
       target: registry.cn-qingdao.aliyuncs.com/wod/etcdctl:v3-mips64le
-      registry: hub.wodcloud.com
+      registry: registry.cn-qingdao.aliyuncs.com
       registry_user:
         from_secret: REGISTRY_USER
       registry_password:
