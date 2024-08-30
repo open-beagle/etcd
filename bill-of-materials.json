@@ -108,6 +108,24 @@
 		]
 	},
 	{
+		"project": "github.com/go-logr/logr",
+		"licenses": [
+			{
+				"type": "Apache License 2.0",
+				"confidence": 1
+			}
+		]
+	},
+	{
+		"project": "github.com/go-logr/stdr",
+		"licenses": [
+			{
+				"type": "Apache License 2.0",
+				"confidence": 1
+			}
+		]
+	},
+	{
 		"project": "github.com/gogo/protobuf",
 		"licenses": [
 			{
@@ -181,6 +199,15 @@
 	},
 	{
 		"project": "github.com/grpc-ecosystem/grpc-gateway",
+		"licenses": [
+			{
+				"type": "BSD 3-clause \"New\" or \"Revised\" License",
+				"confidence": 0.979253112033195
+			}
+		]
+	},
+	{
+		"project": "github.com/grpc-ecosystem/grpc-gateway/v2",
 		"licenses": [
 			{
 				"type": "BSD 3-clause \"New\" or \"Revised\" License",
@@ -540,6 +567,15 @@
 		]
 	},
 	{
+		"project": "go.opentelemetry.io/otel/metric",
+		"licenses": [
+			{
+				"type": "Apache License 2.0",
+				"confidence": 1
+			}
+		]
+	},
+	{
 		"project": "go.opentelemetry.io/otel/sdk",
 		"licenses": [
 			{
@@ -648,7 +684,25 @@
 		]
 	},
 	{
-		"project": "google.golang.org/genproto",
+		"project": "google.golang.org/genproto/googleapis/api",
+		"licenses": [
+			{
+				"type": "Apache License 2.0",
+				"confidence": 1
+			}
+		]
+	},
+	{
+		"project": "google.golang.org/genproto/googleapis/rpc",
+		"licenses": [
+			{
+				"type": "Apache License 2.0",
+				"confidence": 1
+			}
+		]
+	},
+	{
+		"project": "google.golang.org/genproto/protobuf/field_mask",
 		"licenses": [
 			{
 				"type": "Apache License 2.0",

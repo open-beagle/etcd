@@ -657,12 +657,13 @@ func TestApplyConfigChangeUpdatesConsistIndex(t *testing.T) {
 		lgMu:         new(sync.RWMutex),
 		lg:           lg,
 		id:           1,
-		r:            *realisticRaftNode(lg),
+		r:            *realisticRaftNode(lg, 1, nil),
 		cluster:      cl,
 		w:            wait.New(),
 		consistIndex: ci,
 		beHooks:      &backendHooks{lg: lg, indexer: ci},
 	}
+	defer srv.r.Stop()
 
 	// create EntryConfChange entry
 	now := time.Now()
@@ -699,11 +700,17 @@ func TestApplyConfigChangeUpdatesConsistIndex(t *testing.T) {
 	assert.Equal(t, consistIndex, rindex)
 }
 
-func realisticRaftNode(lg *zap.Logger) *raftNode {
+func realisticRaftNode(lg *zap.Logger, id uint64, snap *raftpb.Snapshot) *raftNode {
 	storage := raft.NewMemoryStorage()
 	storage.SetHardState(raftpb.HardState{Commit: 0, Term: 0})
+	if snap != nil {
+		err := storage.ApplySnapshot(*snap)
+		if err != nil {
+			panic(err)
+		}
+	}
 	c := &raft.Config{
-		ID:              1,
+		ID:              id,
 		ElectionTick:    10,
 		HeartbeatTick:   1,
 		Storage:         storage,
@@ -1013,6 +1020,7 @@ func TestSyncTrigger(t *testing.T) {
 // TestSnapshot as snapshot should snapshot the store and cut the persistent
 func TestSnapshot(t *testing.T) {
 	be, _ := betesting.NewDefaultTmpBackend(t)
+	defer betesting.Close(t, be)
 
 	s := raft.NewMemoryStorage()
 	s.Append([]raftpb.Entry{{Index: 1}})
@@ -1032,6 +1040,11 @@ func TestSnapshot(t *testing.T) {
 		consistIndex: cindex.NewConsistentIndex(be),
 	}
 	srv.kv = mvcc.New(zap.NewExample(), be, &lease.FakeLessor{}, mvcc.StoreConfig{})
+
+	defer func() {
+		assert.NoError(t, srv.kv.Close())
+	}()
+
 	srv.be = be
 
 	ch := make(chan struct{}, 2)
@@ -1374,6 +1387,61 @@ func TestAddMember(t *testing.T) {
 	}
 }
 
+// TestProcessIgnoreMismatchMessage tests Process must ignore messages to
+// mismatch member.
+func TestProcessIgnoreMismatchMessage(t *testing.T) {
+	lg := zaptest.NewLogger(t)
+	cl := newTestCluster(t, nil)
+	st := v2store.New()
+	cl.SetStore(st)
+	be, _ := betesting.NewDefaultTmpBackend(t)
+	defer betesting.Close(t, be)
+	cl.SetBackend(be)
+
+	// Bootstrap a 3-node cluster, member IDs: 1 2 3.
+	cl.AddMember(&membership.Member{ID: types.ID(1)}, true)
+	cl.AddMember(&membership.Member{ID: types.ID(2)}, true)
+	cl.AddMember(&membership.Member{ID: types.ID(3)}, true)
+	// r is initialized with ID 1.
+	r := realisticRaftNode(lg, 1, &raftpb.Snapshot{
+		Metadata: raftpb.SnapshotMetadata{
+			Index: 11, // Magic number.
+			Term:  11, // Magic number.
+			ConfState: raftpb.ConfState{
+				// Member ID list.
+				Voters: []uint64{1, 2, 3},
+			},
+		},
+	})
+	s := &EtcdServer{
+		lgMu:         new(sync.RWMutex),
+		lg:           lg,
+		id:           1,
+		r:            *r,
+		v2store:      st,
+		cluster:      cl,
+		reqIDGen:     idutil.NewGenerator(0, time.Time{}),
+		SyncTicker:   &time.Ticker{},
+		consistIndex: cindex.NewFakeConsistentIndex(0),
+		beHooks:      &backendHooks{lg: lg},
+	}
+	// Mock a mad switch dispatching messages to wrong node.
+	m := raftpb.Message{
+		Type:   raftpb.MsgHeartbeat,
+		To:     2, // Wrong ID, s.MemberId() is 1.
+		From:   3,
+		Term:   11,
+		Commit: 42, // Commit is larger than the last index 11.
+	}
+	if types.ID(m.To) == s.ID() {
+		t.Fatalf("m.To (%d) is expected to mismatch s.MemberId (%d)", m.To, s.ID())
+	}
+	err := s.Process(context.Background(), m)
+	if err == nil {
+		t.Fatalf("Must ignore the message and return an error")
+	}
+}
+
 // TestRemoveMember tests RemoveMember can propose and perform node removal.
 func TestRemoveMember(t *testing.T) {
 	lg := zaptest.NewLogger(t)
@@ -1602,6 +1670,7 @@ func TestPublishV3(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	lg := zaptest.NewLogger(t)
 	be, _ := betesting.NewDefaultTmpBackend(t)
+	defer betesting.Close(t, be)
 	srv := &EtcdServer{
 		lgMu:       new(sync.RWMutex),
 		lg:         lg,
@@ -1672,6 +1741,7 @@ func TestPublishV3Retry(t *testing.T) {
 
 	lg := zaptest.NewLogger(t)
 	be, _ := betesting.NewDefaultTmpBackend(t)
+	defer betesting.Close(t, be)
 	srv := &EtcdServer{
 		lgMu:       new(sync.RWMutex),
 		lg:         lg,
