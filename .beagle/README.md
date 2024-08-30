@@ -7,7 +7,7 @@ git remote add upstream git@github.com:etcd-io/etcd.git
 
 git fetch upstream
 
-git merge v3.5.9
+git merge v3.5.15
 ```
 
 ## debug
@@ -18,7 +18,7 @@ docker run -it \
 --rm \
 -v $PWD/:/go/src/go.etcd.io/etcd/v3 \
 -w /go/src/go.etcd.io/etcd/v3 \
-registry.cn-qingdao.aliyuncs.com/wod/golang:1.20-alpine \
+registry.cn-qingdao.aliyuncs.com/wod/golang:1.22 \
 rm -rf vendor && go mod tidy && go mod vendor
 
 # cache etcdctl
@@ -26,7 +26,7 @@ docker run -it \
 --rm \
 -v $PWD/etcdctl/:/go/src/go.etcd.io/etcd/etcdctl/v3 \
 -w /go/src/go.etcd.io/etcd/etcdctl/v3 \
-registry.cn-qingdao.aliyuncs.com/wod/golang:1.20-alpine \
+registry.cn-qingdao.aliyuncs.com/wod/golang:1.22 \
 rm -rf vendor && go mod tidy && go mod vendor
 
 # cache etcdutl
@@ -34,7 +34,7 @@ docker run -it \
 --rm \
 -v $PWD/etcdutl/:/go/src/go.etcd.io/etcd/etcdutl/v3 \
 -w /go/src/go.etcd.io/etcd/etcdutl/v3 \
-registry.cn-qingdao.aliyuncs.com/wod/golang:1.20-alpine \
+registry.cn-qingdao.aliyuncs.com/wod/golang:1.22 \
 rm -rf vendor && go mod tidy && go mod vendor
 
 # build
@@ -42,7 +42,7 @@ docker run -it \
 --rm \
 -v $PWD/:/go/src/go.etcd.io/etcd/ \
 -w /go/src/go.etcd.io/etcd/ \
-registry.cn-qingdao.aliyuncs.com/wod/golang:1.20-alpine \
+registry.cn-qingdao.aliyuncs.com/wod/golang:1.22 \
 bash .beagle/build.sh
 ```
 
