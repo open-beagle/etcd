@@ -1,14 +1,14 @@
 module go.etcd.io/etcd/client/v2
 
-go 1.21
+go 1.22
 
-toolchain go1.21.12
+toolchain go1.22.7
 
 require (
 	github.com/json-iterator/go v1.1.11
 	github.com/modern-go/reflect2 v1.0.1
-	go.etcd.io/etcd/api/v3 v3.5.15
-	go.etcd.io/etcd/client/pkg/v3 v3.5.15
+	go.etcd.io/etcd/api/v3 v3.5.16
+	go.etcd.io/etcd/client/pkg/v3 v3.5.16
 )
 
 require (
